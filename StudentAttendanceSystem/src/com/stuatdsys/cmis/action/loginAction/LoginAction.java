@@ -41,7 +41,8 @@ public class LoginAction extends ActionSupport {
 		
 		System.out.println(123);
 		//调用存储过程，获取列表
-		this.userService.get(1);
+		//this.userService.get(1);
+		System.out.println(this.userService.get(1).getUsername());
 		return SUCCESS;
 	}
 	 public String execute() {
