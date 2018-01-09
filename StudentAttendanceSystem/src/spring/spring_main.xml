@@ -1,0 +1,25 @@
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<!-- =============================列表============================================================ -->	
+	<!-- action -->
+	<bean id="contract" class="com.twmzc.demo.tab.action.TabContractJsonAction" scope="prototype">
+		<property name="tabService" ref="tabServiceImpl"></property>
+	</bean>
+	
+	<!-- service -->
+	<bean id="tabServiceImpl" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.twmzc.demo.tab.service.TabServiceImpl">
+				<property name="tabDao" ref="tabDaoImpl"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- dao -->
+	<bean id="tabDaoImpl" class="com.twmzc.demo.tab.dao.TabDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+</beans>

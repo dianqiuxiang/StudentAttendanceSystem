@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+-->
+    <mapper namespace="com.stuatdsys.cmis.dao.impl.UserDaoImpl">
+		
+	       <!-- 结果集 -->     
+		   <!-- <resultMap id="tbl_userResult" type="tbl_user">   
+		      <id property="id" column="id" />  
+		      <result property="username" column="username"/>  -->
+		      <!-- 多对一的关系，注意resultMap的名字为 引用的namespace+resultMap的Id -->  
+		     <!--  <association property="teacher_id" column="teacher_id" javaType="Tbl_teacher" resultMap="com.stuatdsys.cmis.dao.impl.TeacherDaoImpl.teacherResult"/>  
+		   </resultMap>   -->
+		      
+		   <!-- 新增tbl_user实体类 -->  
+		    <insert id="insert" parameterType="tbl_user">  
+		        insert into tbl_user(username,pwd) values(#{username,jdbcType=VARCHAR},#{pwd,jdbcType=VARCHAR})  
+		   </insert>  
+		     
+		   <!-- 更新对象 -->  
+		   <update id="update" parameterType="tbl_user">  
+		      update tbl_user   
+		      <set>  
+			      <if test="username != null">username=#{username,jdbcType=VARCHAR},</if>  
+			      <if test="pwd != null">pwd=#{pwd,jdbcType=VARCHAR},</if>  
+		      </set>  
+		      <where>  
+		        <if test="id != null">  
+		            id = #{id,jdbcType=INTEGER}  
+		        </if>  
+		      </where>  
+		   </update>  
+		     
+		   <!-- 更新对象（参数） -->  
+		    <update id="updateParam" parameterType="java.util.Map">  
+		      update tbl_user   
+		      <set>  
+			      <if test="username != null">username=#{username,jdbcType=VARCHAR},</if>  
+			      <if test="pwd != null">pwd=#{pwd,jdbcType=VARCHAR},</if>  
+		      </set>  
+		      <where>  
+		         <if test="id != null">  
+		            id = #{id,jdbcType=INTEGER}  
+		        </if>  
+		      </where>  
+		   </update>  
+		     
+		    <!-- 批量更新 -->  
+		   <update id="updateBatch" parameterType="tbl_user">  
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
+		        <foreach collection="list" item="tbl_user" separator=";">  
+		            update tbl_user   
+		                <set>  
+		                   <if test="tbl_user.username != null">username= #{tbl_user.username,jdbcType=VARCHAR},</if>  
+		                   <if test="tbl_user.pwd != null">pwd= #{tbl_user.pwd,jdbcType=VARCHAR},</if>  
+		                </set>  
+		                <where>  
+		                    <if test="id != null">  
+					            id = #{id,jdbcType=INTEGER}  
+					        </if>  
+		                </where>  
+		        </foreach>  
+		   </update>  
+		     
+		   <!-- 根据主键删除 -->  
+		   <delete id="deletePK" parameterType="int">  
+		        delete from tbl_user where id = #{id}  
+		   </delete>  
+		     
+		   <!-- 根据参数删除 -->  
+		   <delete id="deleteParam" parameterType="java.util.Map">  
+		        delete from tbl_user  
+		        <where>  
+		            <if test="username != null">username = #{username}</if>  
+		            <if test="pwd != null"> and pwd = #{pwd}</if>  
+		        </where>  
+		   </delete>  
+		     
+		   <!-- 批量删除 -->  
+		   <delete id="deleteBatch">  
+		        delete from tbl_user where id in   
+		        <trim prefix="(" suffix=")" suffixOverrides=",">  
+		            <foreach collection="list" item="pk" separator=",">  
+		                #{pk}  
+		            </foreach>  
+		        </trim>  
+		   </delete>  
+		     
+		   <!-- 批量插入 -->  
+		   <insert id="insertBatch" parameterType="arraylist">  
+		        insert into tbl_user(username,pwd)   
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
+		        <foreach collection="list" item="tbl_user"  index="index" separator="union all">  
+		         select #{tbl_user.id,jdbcType=NUMERIC},#{tbl_user.username,jdbcType=VARCHAR},#{tbl_user.pwd,jdbcType=VARCHAR} from dual  
+		        </foreach>  
+		   </insert>  
+		     
+		   <!-- count -->  
+		   <select id="count" resultType="int">  
+		        select count(*) from tbl_user e   
+		  </select>  
+		  <select id="countParam" parameterType="java.util.Map" resultType="int">  
+		        select count(*) from tbl_user e   
+		        <where>  
+		        <if test="username != null">username = #{username}</if>  
+		        <if test="pwd != null"> and pwd = #{pwd}</if> 
+		       </where>  
+		  </select>  
+		    
+		   <!-- 查询（参数） -->  
+		   <select id="selectParam" parameterType="java.util.Map" resultType="tbl_user">  
+		        select * from tbl_user   
+		        <where>  
+		       <if test="username != null">username = #{username}</if>  
+		        <if test="pwd != null"> and pwd = #{pwd}</if>   
+		       </where>  
+		       <if test="orderColumn != null">  
+		            order by ${orderColumn}  
+		            <if test="orderTurn != null">  
+		                ${orderTurn}  
+		            </if>  
+		       </if>  
+		   </select>
+		   
+		   <!-- 查询（参数） -->  
+		   <select id="selectPk" parameterType="Integer" resultType="tbl_user">  
+		        select * from tbl_user   where id = #{id} 
+		   </select>
+	    
+    </mapper>
