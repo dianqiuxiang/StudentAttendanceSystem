@@ -5,4 +5,8 @@ import com.stuatdsys.cmis.model.Tbl_callname;
 
 public class CallnameDaoImpl extends BaseDaoImpl<Tbl_callname> implements CallnameDao {
 
+	public CallnameDaoImpl(){
+		super.setNamespace("com.stuatdsys.cmis.dao.impl.CallnameDaoImpl");		
+	}
+	
 }

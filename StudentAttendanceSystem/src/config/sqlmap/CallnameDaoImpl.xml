@@ -3,38 +3,41 @@
 <!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
 例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
 -->
-    <mapper namespace="com.stuatdsys.cmis.dao.impl.UserDaoImpl">
-		
-	       <!-- 结果集 -->     
-		   <!-- <resultMap id="tbl_userResult" type="tbl_user">   
+    <mapper namespace="com.stuatdsys.cmis.dao.impl.CallnameDaoImpl">
+		<!-- 产品字典表 -->
+		<select id="queryContractList" resultType="tbl_callname">
+	    	select * from tbl_callname
+	    </select>
+	     <!-- 结果集 -->     
+		   <!-- <resultMap id="tbl_callnameResult" type="tbl_callname">   
 		      <id property="id" column="id" />  
 		      <result property="username" column="username"/>  -->
 		      <!-- 多对一的关系，注意resultMap的名字为 引用的namespace+resultMap的Id -->  
 		     <!--  <association property="teacher_id" column="teacher_id" javaType="Tbl_teacher" resultMap="com.stuatdsys.cmis.dao.impl.TeacherDaoImpl.teacherResult"/>  
 		   </resultMap>   -->
 		      
-		   <!-- 新增tbl_user实体类 -->  
-		    <insert id="insert" parameterType="tbl_user">  
-		        insert into tbl_user (username, pwd, 
+		   <!-- 新增tbl_callname实体类 -->  
+		    <insert id="insert" parameterType="tbl_callname">  
+		        insert into tbl_callname (id, username, pwd, 
 			      teacherid, studentid, tec_or_stu, 
 			      description)
-			    values (#{username,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
+			    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
 			      #{teacherid,jdbcType=INTEGER}, #{studentid,jdbcType=INTEGER}, #{tec_or_stu,jdbcType=INTEGER}, 
 			      #{description,jdbcType=VARCHAR})  
 		   </insert>  		    
 		     
 		   <!-- 批量插入 -->  
 		   <insert id="insertBatch" parameterType="arraylist">  
-		        insert into tbl_user(username,pwd)   
+		        insert into tbl_callname(username,pwd)   
 		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
-		        <foreach collection="list" item="tbl_user"  index="index" separator="union all">  
-		         select #{tbl_user.id,jdbcType=NUMERIC},#{tbl_user.username,jdbcType=VARCHAR},#{tbl_user.pwd,jdbcType=VARCHAR} from dual  
+		        <foreach collection="list" item="tbl_callname"  index="index" separator="union all">  
+		         select #{tbl_callname.id,jdbcType=NUMERIC},#{tbl_callname.username,jdbcType=VARCHAR},#{tbl_callname.pwd,jdbcType=VARCHAR} from dual  
 		        </foreach>  
 		   </insert>
 		     
 		   <!-- 更新对象 -->  
-		   <update id="update" parameterType="tbl_user">  
-		      	update tbl_user
+		   <update id="update" parameterType="tbl_callname">  
+		      	update tbl_callname
 			    <set >
 			      <if test="username != null" >
 			        username = #{username,jdbcType=VARCHAR},
@@ -60,7 +63,7 @@
 		     
 		   <!-- 更新对象（自定义范围） -->  
 		    <update id="updateFields" parameterType="java.util.Map">  
-		      update tbl_user   
+		      update tbl_callname   
 		      <set>  
 			    <foreach collection="fields.entrySet()" index="key" item="value" separator=","> 			  
 			        ${key} = #{value}  
@@ -76,7 +79,7 @@
 		    <!-- 批量更新 -->  
 		   <update id="updateBatch" parameterType="java.util.List">  
 		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
-		        update tbl_user
+		        update tbl_callname
 			        <trim prefix="set" suffixOverrides=",">
 			            <trim prefix="username = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
@@ -134,12 +137,12 @@
 		     
 		   <!-- 根据主键删除 -->  
 		   <delete id="deletePK" parameterType="int">  
-		        delete from tbl_user where id = #{id}  
+		        delete from tbl_callname where id = #{id}  
 		   </delete>  
 		     
 		   <!-- 根据参数删除 -->  
 		   <delete id="deleteParam" parameterType="java.util.Map">  
-		        delete from tbl_user  
+		        delete from tbl_callname  
 				  <where>
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 
@@ -149,7 +152,7 @@
 		     
 		   <!-- 批量删除 -->  
 		   <delete id="deleteBatch">  
-		        delete from tbl_user where id in   
+		        delete from tbl_callname where id in   
 		        <trim prefix="(" suffix=")" suffixOverrides=",">  
 		            <foreach collection="list" item="pk" separator=",">  
 		                #{pk}  
@@ -159,15 +162,15 @@
 		   
 		   <!-- 整表内容删除 -->  
 		   <delete id="truncate">  
-		        delete from tbl_user 
+		        delete from tbl_callname 
 		   </delete>  
 		     
 		   <!-- count -->  
 		   <select id="count" resultType="int">  
-		        select count(*) from tbl_user e   
+		        select count(*) from tbl_callname e   
 		  </select>  
 		  <select id="countParam" parameterType="java.util.Map" resultType="int">  
-		        select count(*) from tbl_user e   
+		        select count(*) from tbl_callname e   
 		        <where>
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 
@@ -176,24 +179,22 @@
 		  </select>
 		  
 		  <!-- 查询 -->  
-		   <select id="select" parameterType="Integer" resultType="tbl_user">  
-		        select * from tbl_user
+		   <select id="select" parameterType="Integer" resultType="tbl_callname">  
+		        select * from tbl_callname
 		   </select>
 		  
 		   <!-- 查询（参数） -->  
-		   <select id="selectPk" parameterType="Integer" resultType="tbl_user">  
-		        select * from tbl_user   where id = #{id} 
+		   <select id="selectPk" parameterType="Integer" resultType="tbl_callname">  
+		        select * from tbl_callname   where id = #{id} 
 		   </select>  
 		    
 		   <!-- 查询（参数） -->  
-		   <select id="selectParam" parameterType="java.util.Map" resultType="tbl_user">  
-		        select * from tbl_user   
+		   <select id="selectParam" parameterType="java.util.Map" resultType="tbl_callname">  
+		        select * from tbl_callname   
 		       <where>
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 
 				    </foreach> 
 	              </where> 
 		   </select>
-		   
-	    
     </mapper>

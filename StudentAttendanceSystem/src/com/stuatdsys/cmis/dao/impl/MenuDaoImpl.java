@@ -4,6 +4,10 @@ import com.stuatdsys.cmis.dao.MenuDao;
 import com.stuatdsys.cmis.model.Tbl_menu;
 
 public class MenuDaoImpl extends BaseDaoImpl<Tbl_menu> implements MenuDao {
+
+	public MenuDaoImpl(){
+		super.setNamespace("com.stuatdsys.cmis.dao.impl.MenuDaoImpl");		
+	}
 	
 }
 

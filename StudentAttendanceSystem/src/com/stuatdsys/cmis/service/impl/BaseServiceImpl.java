@@ -5,10 +5,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.stuatdsys.cmis.dao.BaseDao;
 import com.stuatdsys.cmis.service.BaseService;
-import com.stuatdsys.cmis.utils.PageEntity;
-import com.stuatdsys.cmis.utils.PagingResult;
 
 public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
@@ -21,73 +23,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public int insert(T entity) {
 		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int update(T entity) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateParam(Map param) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delete(int primaryKey) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteParam(Map param) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int truncate() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int count(Object param) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public T get(int primaryKey) {
-		// TODO Auto-generated method stub
-		return getBaseDao().get(primaryKey);
-	}
-
-	@Override
-	public List<T> select() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<T> selectParam(Map param) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PagingResult<T> selectPagination(PageEntity param) {
-		// TODO Auto-generated method stub
-		return null;
+		return getBaseDao().insert(entity);
 	}
 
 	@Override
@@ -95,19 +31,89 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public int update(T entity) {
+		// TODO Auto-generated method stub
+		return getBaseDao().update(entity);
+	}
 
 	@Override
+	public int updateFields(Map param) {
+		// TODO Auto-generated method stub
+		return getBaseDao().updateFields(param);
+	}
+	
+	@Override
+	@Transactional
 	public int updateBatch(List<T> list) {
 		// TODO Auto-generated method stub
-		return 0;
+		return getBaseDao().updateBatch(list);
 	}
 
 	@Override
-	public int deleteBatch(List<Integer> list) {
+	public int delete(int primaryKey) {
 		// TODO Auto-generated method stub
-		return 0;
+		return getBaseDao().delete(primaryKey);
 	}
 
+	@Override
+	public int deleteParam(Map param) {
+		// TODO Auto-generated method stub
+		return getBaseDao().deleteParam(param);
+	}
+	
+	@Override
+	@Transactional
+	public int deleteBatch(List<Integer> list) {
+		// TODO Auto-generated method stub
+		return getBaseDao().deleteBatch(list);
+	}
+
+	@Override
+	public int truncate() {
+		// TODO Auto-generated method stub
+		return getBaseDao().truncate();
+	}
+
+	@Override
+	public int count() {
+		// TODO Auto-generated method stub
+		return getBaseDao().count();
+	}
+
+	@Override
+	public int count(Object param) {
+		// TODO Auto-generated method stub
+		return getBaseDao().count(param);
+	}
+
+	@Override
+	public List<T> select() {
+		// TODO Auto-generated method stub
+		return getBaseDao().select();
+	}
+
+	@Override
+	public T selectPK(int primaryKey) {
+		// TODO Auto-generated method stub
+		return getBaseDao().selectPK(primaryKey);
+	}
+
+	@Override
+	public List<T> selectParam(Map param) {
+		// TODO Auto-generated method stub
+		return getBaseDao().selectParam(param);
+	}
+
+	@Override
+	public PageInfo<T> selectPagination(Map param,int pageNum,int pageSize) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum, pageSize);
+		List<T> list=getBaseDao().selectParam(param); 
+		PageInfo<T> pageInfo=new PageInfo<T>(list);
+		return pageInfo;
+	}
 
 
 }

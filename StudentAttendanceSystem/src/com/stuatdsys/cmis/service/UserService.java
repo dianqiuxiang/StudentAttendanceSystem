@@ -4,7 +4,7 @@ import com.stuatdsys.cmis.model.Tbl_user;
 
 public interface UserService extends BaseService<Tbl_user> {
 
-	
+	public int update();
 
 }
 
