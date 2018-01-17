@@ -4,8 +4,218 @@
 例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
 -->
     <mapper namespace="com.stuatdsys.cmis.dao.impl.TeacherDaoImpl">
-		<!-- 产品字典表 -->
-		<select id="queryContractList" resultType="tbl_teacher">
-	    	select * from tbl_teacher
-	    </select>
+		<!-- 结果集 -->     
+		   <!-- <resultMap id="tbl_callnameResult" type="tbl_callname">   
+		      <id property="id" column="id" />  
+		      <result property="username" column="username"/>  -->
+		      <!-- 多对一的关系，注意resultMap的名字为 引用的namespace+resultMap的Id -->  
+		     <!--  <association property="teacher_id" column="teacher_id" javaType="Tbl_teacher" resultMap="com.stuatdsys.cmis.dao.impl.TeacherDaoImpl.teacherResult"/>  
+		   </resultMap>   -->
+		      
+		   <!-- 新增tbl_callname实体类 -->  
+		    <insert id="insert" parameterType="tbl_callname">  
+		        insert into tbl_callname (clacousch_Id, student_Id, 
+			      course_Id, state, remark, 
+			      callname_Time, create_Time, update_Time
+			      )
+			    values ( #{clacousch_Id,jdbcType=INTEGER}, #{student_Id,jdbcType=INTEGER}, 
+			      #{course_Id,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+			      #{callname_Time,jdbcType=VARCHAR}, #{create_Time,jdbcType=VARCHAR}, #{update_Time,jdbcType=VARCHAR}
+			      )  
+		   </insert>  		    
+		     
+		   <!-- 批量插入 -->  
+		   <insert id="insertBatch" parameterType="arraylist">  
+		        insert into tbl_callname(username,pwd)   
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
+		        <foreach collection="list" item="tbl_callname"  index="index" separator="union all">  
+		         select #{tbl_callname.id,jdbcType=NUMERIC},#{tbl_callname.username,jdbcType=VARCHAR},#{tbl_callname.pwd,jdbcType=VARCHAR} from dual  
+		        </foreach>  
+		   </insert>
+		     
+		   <!-- 更新对象 -->  
+		   <update id="update" parameterType="tbl_callname">  
+		      	update tbl_callname
+				    <set >
+				      <if test="clacousch_Id != null" >
+				        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
+				      </if>
+				      <if test="student_Id != null" >
+				        student_Id = #{student_Id,jdbcType=INTEGER},
+				      </if>
+				      <if test="course_Id != null" >
+				        course_Id = #{course_Id,jdbcType=INTEGER},
+				      </if>
+				      <if test="state != null" >
+				        state = #{state,jdbcType=VARCHAR},
+				      </if>
+				      <if test="remark != null" >
+				        remark = #{remark,jdbcType=VARCHAR},
+				      </if>
+				      <if test="callname_Time != null" >
+				        callname_Time = #{callname_Time,jdbcType=VARCHAR},
+				      </if>
+				      <if test="create_Time != null" >
+				        create_Time = #{create_Time,jdbcType=VARCHAR},
+				      </if>
+				      <if test="update_Time != null" >
+				        update_Time = #{update_Time,jdbcType=VARCHAR},
+				      </if>
+				    </set>
+				    where id = #{id,jdbcType=INTEGER}
+		   </update>		   
+		     
+		   <!-- 更新对象（自定义范围） -->  
+		    <update id="updateFields" parameterType="java.util.Map">  
+		      update tbl_callname   
+		      <set>  
+			    <foreach collection="fields.entrySet()" index="key" item="value" separator=","> 			  
+			        ${key} = #{value}  
+			    </foreach>  
+			  </set>  
+			  <where>
+			  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
+			        ${key} = #{value} 
+			    </foreach> 
+              </where>  
+		   </update>  
+		     
+		    <!-- 批量更新 -->  
+		   <update id="updateBatch" parameterType="java.util.List">  
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
+		        update tbl_callname
+			        <trim prefix="set" suffixOverrides=",">
+			            <trim prefix="clacousch_Id = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.clacousch_Id != null" >
+							        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="student_Id = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.student_Id != null" >
+							        student_Id = #{student_Id,jdbcType=INTEGER},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="course_Id = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.course_Id != null" >
+							        course_Id = #{course_Id,jdbcType=INTEGER},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="state = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.state != null" >
+							        state = #{state,jdbcType=VARCHAR},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="remark = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.remark != null" >
+							        remark = #{remark,jdbcType=VARCHAR},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="callname_Time = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.callname_Time != null" >
+							        callname_Time = #{callname_Time,jdbcType=VARCHAR},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="create_Time = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.create_Time != null" >
+							        create_Time = #{create_Time,jdbcType=VARCHAR},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			            <trim prefix="update_Time = case" suffix="end,">
+			                 <foreach collection="list" item="item" index="index">
+			                     <if test="item.update_Time != null" >
+							        update_Time = #{update_Time,jdbcType=VARCHAR},
+							      </if>
+			                 </foreach>
+			            </trim>
+			            
+			        </trim>			        
+			        where id in
+			        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+			            #{item.id,jdbcType=INTEGER}
+			        </foreach>  
+		   </update>  
+		     
+		   <!-- 根据主键删除 -->  
+		   <delete id="deletePK" parameterType="int">  
+		        delete from tbl_callname where id = #{id}  
+		   </delete>  
+		     
+		   <!-- 根据参数删除 -->  
+		   <delete id="deleteParam" parameterType="java.util.Map">  
+		        delete from tbl_callname  
+				  <where>
+				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
+				        ${key} = #{value} 
+				    </foreach> 
+	              </where>   
+		   </delete>  
+		     
+		   <!-- 批量删除 -->  
+		   <delete id="deleteBatch">  
+		        delete from tbl_callname where id in   
+		        <trim prefix="(" suffix=")" suffixOverrides=",">  
+		            <foreach collection="list" item="pk" separator=",">  
+		                #{pk}  
+		            </foreach>  
+		        </trim>  
+		   </delete>  
+		   
+		   <!-- 整表内容删除 -->  
+		   <delete id="truncate">  
+		        delete from tbl_callname 
+		   </delete>  
+		     
+		   <!-- count -->  
+		   <select id="count" resultType="int">  
+		        select count(*) from tbl_callname e   
+		  </select>  
+		  <select id="countParam" parameterType="java.util.Map" resultType="int">  
+		        select count(*) from tbl_callname e   
+		        <where>
+				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
+				        ${key} = #{value} 
+				    </foreach> 
+	              </where> 
+		  </select>
+		  
+		  <!-- 查询 -->  
+		   <select id="select" parameterType="Integer" resultType="tbl_callname">  
+		        select * from tbl_callname
+		   </select>
+		  
+		   <!-- 查询（参数） -->  
+		   <select id="selectPk" parameterType="Integer" resultType="tbl_callname">  
+		        select * from tbl_callname   where id = #{id} 
+		   </select>  
+		    
+		   <!-- 查询（参数） -->  
+		   <select id="selectParam" parameterType="java.util.Map" resultType="tbl_callname">  
+		        select * from tbl_callname   
+		       <where>
+				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
+				        ${key} = #{value} 
+				    </foreach> 
+	              </where> 
+		   </select>
     </mapper>

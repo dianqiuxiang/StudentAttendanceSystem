@@ -40,85 +40,85 @@
         </javaClientGenerator>
 
         <!-- 5.设置要生成model的表，一个表对应一个table元素 -->
-        <table tableName="tbl_user" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_user" domainObjectName="Tbl_user" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_callname" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_callname" domainObjectName="tbl_callname" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_clacousch" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_clacousch" domainObjectName="tbl_clacousch" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_class" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_class" domainObjectName="tbl_class" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_course" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_course" domainObjectName="tbl_course" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_department" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_department" domainObjectName="tbl_department" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_menu" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_menu" domainObjectName="tbl_menu" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_power" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_power" domainObjectName="tbl_power" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_schedule" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_schedule" domainObjectName="tbl_schedule" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_stucou" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_stucou" domainObjectName="tbl_stucou" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_student" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_student" domainObjectName="tbl_student" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_teacher" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_teacher" domainObjectName="tbl_teacher" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_teacou" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_teacou" domainObjectName="tbl_teacou" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
         
-        <table tableName="tbl_userpower" domainObjectName="Tbl_ser" enableCountByExample="false"
+        <table tableName="tbl_userpower" domainObjectName="tbl_userpower" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <property name="useActualColumnNames" value="true"/>
