@@ -29,7 +29,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public int insertBatch(List<T> list) {
 		// TODO Auto-generated method stub
-		return 0;
+		return getBaseDao().insertBatch(list);
 	}
 	
 	@Override

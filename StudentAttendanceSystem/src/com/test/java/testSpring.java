@@ -89,39 +89,39 @@ public class testSpring {
 //	    System.out.println("updateParam.end");
 	    
 	    
-//	    System.out.println("updateBatch.start");
-//	    
-//	    List<Tbl_user> list=new ArrayList();
-//	    Tbl_user a1=new Tbl_user();
-//	    a1.setId(1);
-//	    a1.setUsername("123");
-//	    a1.setPwd("aa");
-//	    a1.setStudentid(1);
-//	    a1.setTec_or_stu(2);
-//	    a1.setDescription("He or she is Student");
-//	    list.add(a1);
-//	    
-//	    Tbl_user a2=new Tbl_user();
-//	    a2.setId(2);
-//	    a2.setUsername("124");
-//	    a2.setPwd("aaa");
-//	    a2.setTeacherid(1);
-//	    a2.setTec_or_stu(1);
-//	    a2.setDescription("He or she is Teacher");
-//	    list.add(a2);
-//	    
-//	    Tbl_user a3=new Tbl_user();
-//	    a3.setId(3);
-//	    a3.setUsername("125");
-//	    a3.setPwd("aaaa");
-//	    a3.setTeacherid(1);
-//	    a3.setTec_or_stu(1);
-//	    a3.setDescription("He or she is Teacher");
-//	    list.add(a3);
-//	    
-//	    int k1=userService.updateBatch(list);
-//	    System.out.println(k1);
-//	    System.out.println("updateBatch.end");
+	    System.out.println("updateBatch.start");
+	    
+	    List<Tbl_user> list=new ArrayList();
+	    Tbl_user a1=new Tbl_user();
+	    a1.setId(90);
+	    a1.setUsername("aa123");
+	    a1.setPwd("aa");
+	    a1.setStudentid(1);
+	    a1.setTec_or_stu(2);
+	    a1.setDescription("He or she is Student");
+	    list.add(a1);
+	    
+	    Tbl_user a2=new Tbl_user();
+	    a2.setId(91);
+	    a2.setUsername("aa124");
+	    a2.setPwd("aaa");
+	    a2.setTeacherid(1);
+	    a2.setTec_or_stu(1);
+	    a2.setDescription("He or she is Teacher");
+	    list.add(a2);
+	    
+	    Tbl_user a3=new Tbl_user();
+	    a3.setId(92);
+	    a3.setUsername("aa125");
+	    a3.setPwd("aaaa");
+	    a3.setTeacherid(1);
+	    a3.setTec_or_stu(1);
+	    a3.setDescription("He or she is Teacher");
+	    list.add(a3);
+	    
+	    int k1=userService.updateBatch(list);
+	    System.out.println(k1);
+	    System.out.println("updateBatch.end");
 	    
 	    
 //	    System.out.println("deletePK.start");
@@ -191,24 +191,49 @@ public class testSpring {
 //	    System.out.println(list.size());
 //	    System.out.println("selectParam.end");
 	    
-	    System.out.println("selectPagination.start");
-	    Map<String, Object> whereMap = new HashMap();
-	    whereMap.put("studentid", 4);	 
-	    whereMap.put("tec_or_stu", 2);
+//	    System.out.println("selectPagination.start");
+//	    Map<String, Object> whereMap = new HashMap();
+//	    whereMap.put("studentid", 4);	 
+//	    whereMap.put("tec_or_stu", 2);
+//	    
+//	    Map<String, Object> params = new HashMap();  
+//	    params.put("where", whereMap);
+//	    PageInfo<Tbl_user> pageInfo=userService.selectPagination(params, 2, 2);	
+//	    System.out.println(pageInfo);
+//	    
+//	    List<Tbl_user> user=pageInfo.getList();
+//	    for(int i=0;i<user.size();i++)
+//	    {
+//	    	System.out.println(user.get(i));
+//	    }
+//	    
+//	    System.out.println("selectPagination.end");
 	    
-	    Map<String, Object> params = new HashMap();  
-	    params.put("where", whereMap);
-	    PageInfo<Tbl_user> pageInfo=userService.selectPagination(params, 2, 2);	
-	    System.out.println(pageInfo);
-	    
-	    List<Tbl_user> user=pageInfo.getList();
-	    for(int i=0;i<user.size();i++)
-	    {
-	    	System.out.println(user.get(i));
-	    }
-	    
-	    System.out.println("selectPagination.end");
-	    
+//	    System.out.println("insertBatch.start");
+//	    Tbl_user a1=new Tbl_user();
+//	    //a1.setId(1);
+//	    a1.setUsername("aa1");
+//	    a1.setPwd("aa1");
+//	    //a1.setTeacherid(null);
+//	    a1.setStudentid(1);
+//	    a1.setTec_or_stu(2);
+//	    a1.setDescription("He or she is Student");
+//	    
+//	    Tbl_user a2=new Tbl_user();
+//	    //a2.setId(1);
+//	    a2.setUsername("aa2");
+//	    a2.setPwd("aa2");
+//	    //a2.setTeacherid(null);
+//	    a2.setStudentid(1);
+//	    a2.setTec_or_stu(2);
+//	    a2.setDescription("He or she is Student");
+//	    
+//	    List<Tbl_user> user=new ArrayList();
+//	    user.add(a1);
+//	    user.add(a2);
+//	    
+//	    int k1=userService.insertBatch(user);
+//	    System.out.println("insertBatch.end");
 	}
 	
 	public static void main(String[] args) {

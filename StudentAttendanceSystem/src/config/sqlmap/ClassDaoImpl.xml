@@ -14,46 +14,45 @@
 		      
 		   <!-- 新增tbl_class实体类 -->  
 		    <insert id="insert" parameterType="tbl_class">  
-		        insert into tbl_class (clacousch_Id, student_Id, 
-			      course_Id, state, remark, 
-			      callname_Time, create_Time, update_Time
-			      )
-			    values ( #{clacousch_Id,jdbcType=INTEGER}, #{student_Id,jdbcType=INTEGER}, 
-			      #{course_Id,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-			      #{callname_Time,jdbcType=VARCHAR}, #{create_Time,jdbcType=VARCHAR}, #{update_Time,jdbcType=VARCHAR}
-			      )  
+		        insert into tbl_class (class_No, class_Name, 
+			      department_Id, teacher_Id, create_Time, 
+			      update_Time)
+			    values ( #{class_No,jdbcType=VARCHAR}, #{class_Name,jdbcType=VARCHAR}, 
+			      #{department_Id,jdbcType=INTEGER}, #{teacher_Id,jdbcType=INTEGER}, #{create_Time,jdbcType=VARCHAR}, 
+			      #{update_Time,jdbcType=VARCHAR})
 		   </insert>  		    
 		     
 		   <!-- 批量插入 -->  
 		   <insert id="insertBatch" parameterType="arraylist">  
-		        insert into tbl_class(username,pwd)   
-		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
-		        <foreach collection="list" item="tbl_class"  index="index" separator="union all">  
-		         select #{tbl_class.id,jdbcType=NUMERIC},#{tbl_class.username,jdbcType=VARCHAR},#{tbl_class.pwd,jdbcType=VARCHAR} from dual  
-		        </foreach>  
+		        insert into tbl_user (class_No, class_Name, 
+			      department_Id, teacher_Id, create_Time, 
+			      update_Time)
+			    values    
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
+		        <foreach collection="list" item="item"  index="index" separator=",">
+        			<trim prefix=" (" suffix=")" suffixOverrides=",">	        		 
+				        #{item.class_No,jdbcType=VARCHAR}, #{item.class_Name,jdbcType=VARCHAR}, 
+			      		#{item.department_Id,jdbcType=INTEGER}, #{item.teacher_Id,jdbcType=INTEGER}, 
+			      		#{item.create_Time,jdbcType=VARCHAR},#{item.update_Time,jdbcType=VARCHAR}       
+		        	</trim>   
+           		</foreach>		
 		   </insert>
 		     
 		   <!-- 更新对象 -->  
 		   <update id="update" parameterType="tbl_class">  
-		      	update tbl_class
+		      	 update tbl_class
 				    <set >
-				      <if test="clacousch_Id != null" >
-				        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
+				      <if test="class_No != null" >
+				        class_No = #{class_No,jdbcType=VARCHAR},
 				      </if>
-				      <if test="student_Id != null" >
-				        student_Id = #{student_Id,jdbcType=INTEGER},
+				      <if test="class_Name != null" >
+				        class_Name = #{class_Name,jdbcType=VARCHAR},
 				      </if>
-				      <if test="course_Id != null" >
-				        course_Id = #{course_Id,jdbcType=INTEGER},
+				      <if test="department_Id != null" >
+				        department_Id = #{department_Id,jdbcType=INTEGER},
 				      </if>
-				      <if test="state != null" >
-				        state = #{state,jdbcType=VARCHAR},
-				      </if>
-				      <if test="remark != null" >
-				        remark = #{remark,jdbcType=VARCHAR},
-				      </if>
-				      <if test="callname_Time != null" >
-				        callname_Time = #{callname_Time,jdbcType=VARCHAR},
+				      <if test="teacher_Id != null" >
+				        teacher_Id = #{teacher_Id,jdbcType=INTEGER},
 				      </if>
 				      <if test="create_Time != null" >
 				        create_Time = #{create_Time,jdbcType=VARCHAR},
@@ -85,75 +84,58 @@
 		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
 		        update tbl_class
 			        <trim prefix="set" suffixOverrides=",">
-			            <trim prefix="clacousch_Id = case" suffix="end,">
+			            <trim prefix="class_No = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.clacousch_Id != null" >
-							        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
-							      </if>
+			                     <if test="item.class_No !=null">
+			                         when id=#{item.id} then #{item.class_No,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
-			            <trim prefix="student_Id = case" suffix="end,">
+			            <trim prefix="class_Name = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.student_Id != null" >
-							        student_Id = #{student_Id,jdbcType=INTEGER},
-							      </if>
+			                     <if test="item.class_Name !=null">
+			                         when id=#{item.id} then #{item.class_Name,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
-			            <trim prefix="course_Id = case" suffix="end,">
+			            <trim prefix="department_Id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.course_Id != null" >
-							        course_Id = #{course_Id,jdbcType=INTEGER},
-							      </if>
+			                     <if test="item.department_Id !=null">
+			                         when id=#{item.id} then #{item.department_Id,jdbcType=INTEGER}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
-			            <trim prefix="state = case" suffix="end,">
+			            <trim prefix="teacher_Id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.state != null" >
-							        state = #{state,jdbcType=VARCHAR},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="remark = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.remark != null" >
-							        remark = #{remark,jdbcType=VARCHAR},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="callname_Time = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.callname_Time != null" >
-							        callname_Time = #{callname_Time,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.teacher_Id !=null">
+			                         when id=#{item.id} then #{item.teacher_Id,jdbcType=INTEGER}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="create_Time = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.create_Time != null" >
-							        create_Time = #{create_Time,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.create_Time !=null">
+			                         when id=#{item.id} then #{item.create_Time,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="update_Time = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.update_Time != null" >
-							        update_Time = #{update_Time,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.update_Time !=null">
+			                         when id=#{item.id} then #{item.update_Time,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
-			            
-			        </trim>			        
+			        </trim>
 			        where id in
 			        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
 			            #{item.id,jdbcType=INTEGER}
-			        </foreach>  
+			        </foreach>
 		   </update>  
 		     
 		   <!-- 根据主键删除 -->  
@@ -216,6 +198,6 @@
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 
 				    </foreach> 
-	              </where> 
+	           </where> 
 		   </select>
     </mapper>

@@ -77,12 +77,13 @@ public class BaseDaoImpl<T> extends
     
     @Override  
     public int insertBatch(List<T> list) {  
+    	int rows = 0; 
         try {  
-            return this.getSqlSession().insert(namespace + "." + SQLID_INSERT_BATCH,list);  
+        	rows = this.getSqlSession().insert(namespace + "." + SQLID_INSERT_BATCH,list);  
         } catch (Exception e) {  
             e.printStackTrace();  
-            return 0;  
-        }  
+        }
+        return rows; 
     }
     
     @Override  

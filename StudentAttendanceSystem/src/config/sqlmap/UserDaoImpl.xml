@@ -25,11 +25,18 @@
 		     
 		   <!-- 批量插入 -->  
 		   <insert id="insertBatch" parameterType="arraylist">  
-		        insert into tbl_user(username,pwd)   
-		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
-		        <foreach collection="list" item="tbl_user"  index="index" separator="union all">  
-		         select #{tbl_user.id,jdbcType=NUMERIC},#{tbl_user.username,jdbcType=VARCHAR},#{tbl_user.pwd,jdbcType=VARCHAR} from dual  
-		        </foreach>  
+		        insert into tbl_user (username, pwd, 
+			      teacherid, studentid, tec_or_stu, 
+			      description)
+			    values    
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
+		        <foreach collection="list" item="item"  index="index" separator=",">
+        			<trim prefix=" (" suffix=")" suffixOverrides=",">	        		 
+				        #{item.username,jdbcType=VARCHAR}, #{item.pwd,jdbcType=VARCHAR}, 
+					    #{item.teacherid,jdbcType=INTEGER}, #{item.studentid,jdbcType=INTEGER}, 
+					    #{item.tec_or_stu,jdbcType=INTEGER},#{item.description,jdbcType=VARCHAR}       
+		        	</trim>   
+           		</foreach>		         
 		   </insert>
 		     
 		   <!-- 更新对象 -->  
@@ -81,7 +88,7 @@
 			            <trim prefix="username = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
 			                     <if test="item.username !=null">
-			                         when id=#{item.id} then #{item.username}
+			                         when id=#{item.id} then #{item.username,jdbcType=VARCHAR}
 			                     </if>
 			                 </foreach>
 			            </trim>
@@ -89,7 +96,7 @@
 			            <trim prefix="pwd = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
 			                     <if test="item.pwd !=null">
-			                         when id=#{item.id} then #{item.pwd}
+			                         when id=#{item.id} then #{item.pwd,jdbcType=VARCHAR}
 			                     </if>
 			                 </foreach>
 			            </trim>
@@ -97,7 +104,7 @@
 			            <trim prefix="teacherid = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
 			                     <if test="item.teacherid !=null">
-			                         when id=#{item.id} then #{item.teacherid}
+			                         when id=#{item.id} then #{item.teacherid,jdbcType=INTEGER}
 			                     </if>
 			                 </foreach>
 			            </trim>
@@ -105,7 +112,7 @@
 			            <trim prefix="studentid = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
 			                     <if test="item.studentid !=null">
-			                         when id=#{item.id} then #{item.studentid}
+			                         when id=#{item.id} then #{item.studentid,jdbcType=INTEGER}
 			                     </if>
 			                 </foreach>
 			            </trim>
@@ -113,7 +120,7 @@
 			            <trim prefix="tec_or_stu = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
 			                     <if test="item.tec_or_stu !=null">
-			                         when id=#{item.id} then #{item.tec_or_stu}
+			                         when id=#{item.id} then #{item.tec_or_stu,jdbcType=INTEGER}
 			                     </if>
 			                 </foreach>
 			            </trim>
@@ -121,7 +128,7 @@
 			            <trim prefix="description = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
 			                     <if test="item.description !=null">
-			                         when id=#{item.id} then #{item.description}
+			                         when id=#{item.id} then #{item.description,jdbcType=VARCHAR}
 			                     </if>
 			                 </foreach>
 			            </trim>

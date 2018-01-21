@@ -5,61 +5,41 @@
 -->
     <mapper namespace="com.stuatdsys.cmis.dao.impl.UserpowerDaoImpl">
 		<!-- 结果集 -->     
-		   <!-- <resultMap id="tbl_callnameResult" type="tbl_callname">   
+		   <!-- <resultMap id="tbl_userpowerResult" type="tbl_userpower">   
 		      <id property="id" column="id" />  
 		      <result property="username" column="username"/>  -->
 		      <!-- 多对一的关系，注意resultMap的名字为 引用的namespace+resultMap的Id -->  
 		     <!--  <association property="teacher_id" column="teacher_id" javaType="Tbl_teacher" resultMap="com.stuatdsys.cmis.dao.impl.TeacherDaoImpl.teacherResult"/>  
 		   </resultMap>   -->
 		      
-		   <!-- 新增tbl_callname实体类 -->  
-		    <insert id="insert" parameterType="tbl_callname">  
-		        insert into tbl_callname (clacousch_Id, student_Id, 
-			      course_Id, state, remark, 
-			      callname_Time, create_Time, update_Time
+		   <!-- 新增tbl_userpower实体类 -->  
+		    <insert id="insert" parameterType="tbl_userpower">  
+		        insert into tbl_userpower (user_id, power_id
 			      )
-			    values ( #{clacousch_Id,jdbcType=INTEGER}, #{student_Id,jdbcType=INTEGER}, 
-			      #{course_Id,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-			      #{callname_Time,jdbcType=VARCHAR}, #{create_Time,jdbcType=VARCHAR}, #{update_Time,jdbcType=VARCHAR}
-			      )  
+			    values (#{user_id,jdbcType=INTEGER}, #{power_id,jdbcType=INTEGER}
+			      ) 
 		   </insert>  		    
 		     
 		   <!-- 批量插入 -->  
 		   <insert id="insertBatch" parameterType="arraylist">  
-		        insert into tbl_callname(username,pwd)   
+		        insert into tbl_userpower (user_id, power_id
+			      )
+			    values  
 		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
-		        <foreach collection="list" item="tbl_callname"  index="index" separator="union all">  
-		         select #{tbl_callname.id,jdbcType=NUMERIC},#{tbl_callname.username,jdbcType=VARCHAR},#{tbl_callname.pwd,jdbcType=VARCHAR} from dual  
+		        <foreach collection="list" item="item"  index="index" separator="union all">  
+		         #{item.user_id,jdbcType=INTEGER}, #{item.power_id,jdbcType=INTEGER}
 		        </foreach>  
 		   </insert>
 		     
 		   <!-- 更新对象 -->  
-		   <update id="update" parameterType="tbl_callname">  
-		      	update tbl_callname
+		   <update id="update" parameterType="tbl_userpower">  
+		      	update tbl_userpower
 				    <set >
-				      <if test="clacousch_Id != null" >
-				        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
+				      <if test="user_id != null" >
+				        user_id = #{user_id,jdbcType=INTEGER},
 				      </if>
-				      <if test="student_Id != null" >
-				        student_Id = #{student_Id,jdbcType=INTEGER},
-				      </if>
-				      <if test="course_Id != null" >
-				        course_Id = #{course_Id,jdbcType=INTEGER},
-				      </if>
-				      <if test="state != null" >
-				        state = #{state,jdbcType=VARCHAR},
-				      </if>
-				      <if test="remark != null" >
-				        remark = #{remark,jdbcType=VARCHAR},
-				      </if>
-				      <if test="callname_Time != null" >
-				        callname_Time = #{callname_Time,jdbcType=VARCHAR},
-				      </if>
-				      <if test="create_Time != null" >
-				        create_Time = #{create_Time,jdbcType=VARCHAR},
-				      </if>
-				      <if test="update_Time != null" >
-				        update_Time = #{update_Time,jdbcType=VARCHAR},
+				      <if test="power_id != null" >
+				        power_id = #{power_id,jdbcType=INTEGER},
 				      </if>
 				    </set>
 				    where id = #{id,jdbcType=INTEGER}
@@ -67,7 +47,7 @@
 		     
 		   <!-- 更新对象（自定义范围） -->  
 		    <update id="updateFields" parameterType="java.util.Map">  
-		      update tbl_callname   
+		      update tbl_userpower   
 		      <set>  
 			    <foreach collection="fields.entrySet()" index="key" item="value" separator=","> 			  
 			        ${key} = #{value}  
@@ -83,68 +63,20 @@
 		    <!-- 批量更新 -->  
 		   <update id="updateBatch" parameterType="java.util.List">  
 		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
-		        update tbl_callname
+		        update tbl_userpower
 			        <trim prefix="set" suffixOverrides=",">
-			            <trim prefix="clacousch_Id = case" suffix="end,">
+			            <trim prefix="user_id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.clacousch_Id != null" >
-							        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
+			                     <if test="item.user_id != null" >
+							        when id=#{item.id} then #{item.user_id,jdbcType=INTEGER}
 							      </if>
 			                 </foreach>
 			            </trim>
 			            
-			            <trim prefix="student_Id = case" suffix="end,">
+			            <trim prefix="power_id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.student_Id != null" >
-							        student_Id = #{student_Id,jdbcType=INTEGER},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="course_Id = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.course_Id != null" >
-							        course_Id = #{course_Id,jdbcType=INTEGER},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="state = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.state != null" >
-							        state = #{state,jdbcType=VARCHAR},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="remark = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.remark != null" >
-							        remark = #{remark,jdbcType=VARCHAR},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="callname_Time = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.callname_Time != null" >
-							        callname_Time = #{callname_Time,jdbcType=VARCHAR},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="create_Time = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.create_Time != null" >
-							        create_Time = #{create_Time,jdbcType=VARCHAR},
-							      </if>
-			                 </foreach>
-			            </trim>
-			            
-			            <trim prefix="update_Time = case" suffix="end,">
-			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.update_Time != null" >
-							        update_Time = #{update_Time,jdbcType=VARCHAR},
+			                     <if test="item.power_id != null" >
+							        when id=#{item.id} then #{item.power_id,jdbcType=INTEGER}
 							      </if>
 			                 </foreach>
 			            </trim>
@@ -158,12 +90,12 @@
 		     
 		   <!-- 根据主键删除 -->  
 		   <delete id="deletePK" parameterType="int">  
-		        delete from tbl_callname where id = #{id}  
+		        delete from tbl_userpower where id = #{id}  
 		   </delete>  
 		     
 		   <!-- 根据参数删除 -->  
 		   <delete id="deleteParam" parameterType="java.util.Map">  
-		        delete from tbl_callname  
+		        delete from tbl_userpower  
 				  <where>
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 
@@ -173,7 +105,7 @@
 		     
 		   <!-- 批量删除 -->  
 		   <delete id="deleteBatch">  
-		        delete from tbl_callname where id in   
+		        delete from tbl_userpower where id in   
 		        <trim prefix="(" suffix=")" suffixOverrides=",">  
 		            <foreach collection="list" item="pk" separator=",">  
 		                #{pk}  
@@ -183,15 +115,15 @@
 		   
 		   <!-- 整表内容删除 -->  
 		   <delete id="truncate">  
-		        delete from tbl_callname 
+		        delete from tbl_userpower 
 		   </delete>  
 		     
 		   <!-- count -->  
 		   <select id="count" resultType="int">  
-		        select count(*) from tbl_callname e   
+		        select count(*) from tbl_userpower e   
 		  </select>  
 		  <select id="countParam" parameterType="java.util.Map" resultType="int">  
-		        select count(*) from tbl_callname e   
+		        select count(*) from tbl_userpower e   
 		        <where>
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 
@@ -200,18 +132,18 @@
 		  </select>
 		  
 		  <!-- 查询 -->  
-		   <select id="select" parameterType="Integer" resultType="tbl_callname">  
-		        select * from tbl_callname
+		   <select id="select" parameterType="Integer" resultType="tbl_userpower">  
+		        select * from tbl_userpower
 		   </select>
 		  
 		   <!-- 查询（参数） -->  
-		   <select id="selectPk" parameterType="Integer" resultType="tbl_callname">  
-		        select * from tbl_callname   where id = #{id} 
+		   <select id="selectPk" parameterType="Integer" resultType="tbl_userpower">  
+		        select * from tbl_userpower   where id = #{id} 
 		   </select>  
 		    
 		   <!-- 查询（参数） -->  
-		   <select id="selectParam" parameterType="java.util.Map" resultType="tbl_callname">  
-		        select * from tbl_callname   
+		   <select id="selectParam" parameterType="java.util.Map" resultType="tbl_userpower">  
+		        select * from tbl_userpower   
 		       <where>
 				  	<foreach collection="where.entrySet()" index="key" item="value" separator="and">
 				        ${key} = #{value} 

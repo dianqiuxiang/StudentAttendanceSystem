@@ -27,11 +27,18 @@
 		     
 		   <!-- 批量插入 -->  
 		   <insert id="insertBatch" parameterType="arraylist">  
-		        insert into tbl_callname(username,pwd)   
-		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->  
-		        <foreach collection="list" item="tbl_callname"  index="index" separator="union all">  
-		         select #{tbl_callname.id,jdbcType=NUMERIC},#{tbl_callname.username,jdbcType=VARCHAR},#{tbl_callname.pwd,jdbcType=VARCHAR} from dual  
-		        </foreach>  
+		        insert into tbl_user (clacousch_Id, student_Id, 
+			      course_Id, state, remark, 
+			      callname_Time, create_Time, update_Time)
+			    values    
+		        <!-- collection可以是List对于list,数组对于array,Map对应ids -->
+		        <foreach collection="list" item="item"  index="index" separator=",">
+        			<trim prefix=" (" suffix=")" suffixOverrides=",">	        		 
+				        #{item.clacousch_Id,jdbcType=INTEGER}, #{item.student_Id,jdbcType=INTEGER}, 
+			      		#{item.course_Id,jdbcType=INTEGER}, #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, 
+			      		#{item.callname_Time,jdbcType=VARCHAR}, #{item.create_Time,jdbcType=VARCHAR}, #{item.update_Time,jdbcType=VARCHAR}       
+		        	</trim>   
+           		</foreach>  
 		   </insert>
 		     
 		   <!-- 更新对象 -->  
@@ -88,69 +95,68 @@
 			        <trim prefix="set" suffixOverrides=",">
 			            <trim prefix="clacousch_Id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.clacousch_Id != null" >
-							        clacousch_Id = #{clacousch_Id,jdbcType=INTEGER},
-							      </if>
+			                     <if test="item.clacousch_Id !=null">
+			                         when id=#{item.id} then #{item.clacousch_Id,jdbcType=INTEGER}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="student_Id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.student_Id != null" >
-							        student_Id = #{student_Id,jdbcType=INTEGER},
-							      </if>
+			                     <if test="item.student_Id !=null">
+			                         when id=#{item.id} then #{item.student_Id,jdbcType=INTEGER}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="course_Id = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.course_Id != null" >
-							        course_Id = #{course_Id,jdbcType=INTEGER},
-							      </if>
+			                     <if test="item.course_Id !=null">
+			                         when id=#{item.id} then #{item.course_Id,jdbcType=INTEGER}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="state = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.state != null" >
-							        state = #{state,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.state !=null">
+			                         when id=#{item.id} then #{item.state,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="remark = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.remark != null" >
-							        remark = #{remark,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.remark !=null">
+			                         when id=#{item.id} then #{item.remark,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="callname_Time = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.callname_Time != null" >
-							        callname_Time = #{callname_Time,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.callname_Time !=null">
+			                         when id=#{item.id} then #{item.callname_Time,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="create_Time = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.create_Time != null" >
-							        create_Time = #{create_Time,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.create_Time !=null">
+			                         when id=#{item.id} then #{item.create_Time,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
 			            
 			            <trim prefix="update_Time = case" suffix="end,">
 			                 <foreach collection="list" item="item" index="index">
-			                     <if test="item.update_Time != null" >
-							        update_Time = #{update_Time,jdbcType=VARCHAR},
-							      </if>
+			                     <if test="item.update_Time !=null">
+			                         when id=#{item.id} then #{item.update_Time,jdbcType=VARCHAR}
+			                     </if>
 			                 </foreach>
 			            </trim>
-			            
-			        </trim>			        
+			        </trim>
 			        where id in
 			        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
 			            #{item.id,jdbcType=INTEGER}
