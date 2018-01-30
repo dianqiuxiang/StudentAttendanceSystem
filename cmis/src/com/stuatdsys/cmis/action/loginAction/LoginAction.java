@@ -15,7 +15,7 @@ import com.stuatdsys.cmis.service.UserService;
 
 @Controller("LoginAction") 
 @Scope("prototype")
-public class LoginAction extends ActionSupport {
+public class LoginAction extends BaseAction {
 	
 	private List<Tbl_user> userList;
 
@@ -28,22 +28,19 @@ public class LoginAction extends ActionSupport {
 	}
 	@Resource
 	private UserService userService;
-	
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	public String select() {
 		
 		System.out.println(123);
 		//调用存储过程，获取列表
 		//this.userService.get(1);
-		System.out.println(this.userService.selectPK(1).getUsername());
+		System.out.println(this.userService.selectPK(91).getUsername());
 		return SUCCESS;
+	}
+	
+	public String login()
+	{
+		return null;
 	}
 	 public String execute() {
 //		 this.contrList = this.tabService.queryContractList(new Contract());
